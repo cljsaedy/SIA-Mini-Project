@@ -1,0 +1,12 @@
+certifi==2025.11.12
+charset-normalizer==3.4.4
+Faker==38.0.0
+idna==3.11
+numpy==2.3.3
+PyQt6==6.10.0
+PyQt6-Qt6==6.10.0
+PyQt6_sip==13.10.2
+pyshorteners==1.0.1
+requests==2.32.5
+tzdata==2025.2
+urllib3==2.5.0
