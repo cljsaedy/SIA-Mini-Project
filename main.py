@@ -14,7 +14,7 @@ DB_NAME = 'users.db'
 class MainApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("SIA Lab Project - Standard")
+        self.setWindowTitle("SIA Mini Project")
         self.setFixedSize(700, 600) 
 
         # faker
@@ -66,15 +66,20 @@ class MainApp(QMainWindow):
 
         layout.addSpacing(30)
 
+        # input styling
+        input_style = "padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+
         self.input_user = QLineEdit()
         self.input_user.setPlaceholderText("Username")
         self.input_user.setFixedWidth(250)
+        self.input_user.setStyleSheet(input_style) 
         layout.addWidget(self.input_user, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.input_pass = QLineEdit()
         self.input_pass.setPlaceholderText("Password")
         self.input_pass.setEchoMode(QLineEdit.EchoMode.Password) 
         self.input_pass.setFixedWidth(250)
+        self.input_pass.setStyleSheet(input_style) 
         layout.addWidget(self.input_pass, alignment=Qt.AlignmentFlag.AlignCenter)
 
         layout.addSpacing(10) 
@@ -82,6 +87,14 @@ class MainApp(QMainWindow):
         # login button
         btn_login = QPushButton("Login")
         btn_login.setFixedWidth(150)
+        btn_login.setStyleSheet("""
+            background-color: #0d6efd; 
+            color: white; 
+            font-weight: bold; 
+            padding: 8px; 
+            border-radius: 4px;
+            outline: 0px;
+        """)
         btn_login.clicked.connect(self.verify_login)
         layout.addWidget(btn_login, alignment=Qt.AlignmentFlag.AlignCenter)
 
@@ -90,6 +103,14 @@ class MainApp(QMainWindow):
         # register
         btn_register = QPushButton("Create Account")
         btn_register.setFixedWidth(150)
+        btn_register.setStyleSheet("""
+            background-color: #198754; 
+            color: white; 
+            font-weight: bold; 
+            padding: 8px; 
+            border-radius: 4px;
+            outline: 0px;
+        """)
         btn_register.clicked.connect(lambda: self.stack.setCurrentIndex(2)) 
         layout.addWidget(btn_register, alignment=Qt.AlignmentFlag.AlignCenter)
 
@@ -126,11 +147,11 @@ class MainApp(QMainWindow):
         header_layout.addStretch() 
         self.lbl_user_display = QLabel("User: ???")
         self.lbl_user_display.setFont(QFont("Arial", 10, QFont.Weight.Bold))
-        self.lbl_user_display.setStyleSheet("color: green; margin-right: 10px;")
+        self.lbl_user_display.setStyleSheet("color: #198754; margin-right: 15px; font-size: 14px;")
         header_layout.addWidget(self.lbl_user_display)
         main_layout.addLayout(header_layout)
 
-        # tabs
+        # tabs 
         self.tabs = QTabWidget()
         self.tabs.setStyleSheet("""
             QTabBar::tab {
@@ -138,12 +159,28 @@ class MainApp(QMainWindow):
                 width: 150px;
                 font-size: 14px;
                 font-weight: bold;
+                background: #e9ecef;
+                margin-right: 2px;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                outline: 0px;
+            }
+            QTabBar::tab:selected {
+                background: #ffffff;
+                border-bottom: 2px solid #0d6efd;
+            }
+            QTabWidget::pane {
+                border: 1px solid #cccccc;
+                background: white;
+            }
+            QTabBar:focus {
+                outline: none;
             }
         """)
         
         self.tabs.addTab(self.create_url_tab(), "URL Shortener")
         self.tabs.addTab(self.create_sms_tab(), "SMS Messaging")
-        self.tabs.addTab(self.create_fake_tab(), "Fake Data Gen")
+        self.tabs.addTab(self.create_fake_tab(), "Fake Data Generator")
         
         main_layout.addWidget(self.tabs)
 
@@ -153,6 +190,14 @@ class MainApp(QMainWindow):
         
         btn_logout = QPushButton("Logout")
         btn_logout.setFixedWidth(100) 
+        btn_logout.setStyleSheet("""
+            background-color: #dc3545; 
+            color: white; 
+            font-weight: bold; 
+            padding: 8px; 
+            border-radius: 4px;
+            outline: 0px;
+        """)
         btn_logout.clicked.connect(self.logout)
         footer_layout.addWidget(btn_logout)
         
@@ -168,20 +213,33 @@ class MainApp(QMainWindow):
     def create_url_tab(self):
         tab = QWidget()
         layout = QVBoxLayout()
-        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setContentsMargins(30, 30, 30, 30)
+
+        input_style = "padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
 
         layout.addWidget(QLabel("Enter Long URL:"))
         self.url_input = QLineEdit()
         self.url_input.setPlaceholderText("https://...") 
+        self.url_input.setStyleSheet(input_style)
         layout.addWidget(self.url_input)
 
         btn_shorten = QPushButton("Shorten URL")
+        btn_shorten.setStyleSheet("""
+            background-color: #198754; 
+            color: white; 
+            font-weight: bold; 
+            padding: 10px; 
+            border-radius: 4px;
+            margin-top: 10px;
+            outline: 0px;
+        """)
         btn_shorten.clicked.connect(self.run_shortener)
         layout.addWidget(btn_shorten)
 
         layout.addWidget(QLabel("Shortened Result:"))
         self.url_output = QLineEdit()
         self.url_output.setReadOnly(True)
+        self.url_output.setStyleSheet(input_style + " background-color: #f8f9fa;")
         layout.addWidget(self.url_output)
         
         layout.addStretch()
@@ -201,25 +259,38 @@ class MainApp(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Connection Failed: {e}")
 
-    # sms 
+    # sms (simulation pa lang)
     def create_sms_tab(self):
         tab = QWidget()
         layout = QVBoxLayout()
-        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setContentsMargins(30, 30, 30, 30)
+
+        input_style = "padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
 
         layout.addWidget(QLabel("Recipient Number:"))
         
         self.sms_num_input = QLineEdit()
         self.sms_num_input.setText("+63") 
         self.sms_num_input.setPlaceholderText("+63...") 
+        self.sms_num_input.setStyleSheet(input_style)
         layout.addWidget(self.sms_num_input)
 
         layout.addWidget(QLabel("Message:"))
         self.sms_msg_input = QLineEdit() 
         self.sms_msg_input.setPlaceholderText("Type your message here...")
+        self.sms_msg_input.setStyleSheet(input_style)
         layout.addWidget(self.sms_msg_input)
 
         btn_send = QPushButton("Send Message")
+        btn_send.setStyleSheet("""
+            background-color: #fd7e14; 
+            color: white; 
+            font-weight: bold; 
+            padding: 10px; 
+            border-radius: 4px;
+            margin-top: 10px;
+            outline: 0px;
+        """)
         btn_send.clicked.connect(self.run_sms)
         layout.addWidget(btn_send)
 
@@ -235,22 +306,32 @@ class MainApp(QMainWindow):
             QMessageBox.warning(self, "Error", "Please check number and message")
             return
 
-        QMessageBox.information(self, "Success", f"Message sent to {number}!\nStatus: 200 OK")
+        QMessageBox.information(self, "Success", f"Message sent to {number}!\nStatus: OK")
         self.sms_msg_input.clear()
 
     # fake data
     def create_fake_tab(self):
         tab = QWidget()
         layout = QVBoxLayout()
-        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setContentsMargins(30, 30, 30, 30)
 
         btn_gen = QPushButton("Generate Identity")
+        btn_gen.setStyleSheet("""
+            background-color: #6f42c1; 
+            color: white; 
+            font-weight: bold; 
+            padding: 10px; 
+            border-radius: 4px;
+            margin-bottom: 15px;
+            outline: 0px;
+        """)
         btn_gen.clicked.connect(self.run_fake_data)
         layout.addWidget(btn_gen)
 
         self.fake_output = QTextEdit()
         self.fake_output.setReadOnly(True)
         self.fake_output.setFont(QFont("Arial", 12))
+        self.fake_output.setStyleSheet("border: 1px solid #ccc; border-radius: 4px; background-color: #f8f9fa;")
         layout.addWidget(self.fake_output)
 
         tab.setLayout(layout)
@@ -282,26 +363,46 @@ class MainApp(QMainWindow):
 
         layout.addSpacing(20)
 
+        input_style = "padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+
         self.reg_user = QLineEdit()
         self.reg_user.setPlaceholderText("New Username")
         self.reg_user.setFixedWidth(250)
+        self.reg_user.setStyleSheet(input_style)
         layout.addWidget(self.reg_user, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.reg_pass = QLineEdit()
         self.reg_pass.setPlaceholderText("New Password")
         self.reg_pass.setEchoMode(QLineEdit.EchoMode.Password)
         self.reg_pass.setFixedWidth(250)
+        self.reg_pass.setStyleSheet(input_style)
         layout.addWidget(self.reg_pass, alignment=Qt.AlignmentFlag.AlignCenter)
 
         layout.addSpacing(10)
 
         btn_submit = QPushButton("Register")
         btn_submit.setFixedWidth(150)
+        btn_submit.setStyleSheet("""
+            background-color: #198754; 
+            color: white; 
+            font-weight: bold; 
+            padding: 8px; 
+            border-radius: 4px;
+            outline: 0px;
+        """)
         btn_submit.clicked.connect(self.register_user)
         layout.addWidget(btn_submit, alignment=Qt.AlignmentFlag.AlignCenter)
 
         btn_back = QPushButton("Back to Login")
         btn_back.setFixedWidth(150)
+        btn_back.setStyleSheet("""
+            background-color: #6c757d; 
+            color: white; 
+            font-weight: bold; 
+            padding: 8px; 
+            border-radius: 4px;
+            outline: 0px;
+        """)
         btn_back.clicked.connect(lambda: self.stack.setCurrentIndex(0))
         layout.addWidget(btn_back, alignment=Qt.AlignmentFlag.AlignCenter)
 
