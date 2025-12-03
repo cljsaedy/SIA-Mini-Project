@@ -7,7 +7,7 @@ def create_database():
     cursor = conn.cursor()
     
     # Create a table to store users
-    # We store the username and the hashed password (not the plain text!)
+    # Store the username and the hashed password 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             username TEXT PRIMARY KEY,
@@ -15,9 +15,7 @@ def create_database():
         )
     ''')
     
-    # Let's add a default user so you can log in immediately
-    # Username: admin
-    # Password: password123
+    # Default User
     
     default_user = "admin"
     default_pass = "password123"
@@ -33,7 +31,6 @@ def create_database():
     except sqlite3.IntegrityError:
         print("User 'admin' already exists in the database.")
 
-    # Save changes and close
     conn.commit()
     conn.close()
     print("Database setup complete. 'users.db' has been created.")
