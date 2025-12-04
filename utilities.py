@@ -6,7 +6,7 @@ from faker import Faker
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
                              QLineEdit, QPushButton, QMessageBox, 
                              QTabWidget, QTextEdit, QApplication)
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTimer
 
 CSV_FILE = 'generated_data.csv'
 SMS_LOG_FILE = 'sms_logs.txt'
@@ -17,77 +17,74 @@ class UtilityScreen(QWidget):
         self.logout_callback = logout_callback
         self.current_user = current_user
         self.fake = Faker()
-        
         self.session_data = [] 
         
         self.init_ui()
 
     def init_ui(self):
         main_layout = QVBoxLayout()
-        main_layout.setContentsMargins(30, 30, 30, 30)
+        main_layout.setContentsMargins(40, 40, 40, 40) 
 
         # header
         header_layout = QHBoxLayout()
         header_layout.addStretch() 
-        self.lbl_user = QLabel(f"Logged in as: {self.current_user}")
-        self.lbl_user.setStyleSheet("color: #27ae60; font-weight: bold; font-size: 15px; font-family: 'Poppins', sans-serif;")
+        self.lbl_user = QLabel(f"Hello, {self.current_user}")
+        self.lbl_user.setStyleSheet("color: #00a8ff; font-weight: 800; font-size: 18px;")
         header_layout.addWidget(self.lbl_user)
         main_layout.addLayout(header_layout)
 
-        # tabs
+        main_layout.addSpacing(20)
+
+        # tabs styling
         self.tabs = QTabWidget()
         self.tabs.setStyleSheet("""
             QTabWidget::pane {
-                border: 1px solid #e0e0e0;
-                background: white;
-                border-radius: 6px;
-                top: -1px; 
+                border: 1px solid #353b48;
+                background: #1e272e; 
+                border-radius: 15px;
             }
             QTabBar::tab {
-                background: #f4f7f6;
-                color: #7f8c8d;
+                background: #2f3640;
+                color: #dcdde1;
                 padding: 12px 25px;
-                border-top-left-radius: 6px;
-                border-top-right-radius: 6px;
+                border-radius: 20px; 
                 font-weight: 600;
-                font-family: 'Poppins', sans-serif;
-                border: 1px solid transparent;
-                margin-right: 5px;
+                margin-right: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #353b48;
             }
             QTabBar::tab:selected {
-                background: white;
-                color: #4a90e2; 
-                border: 1px solid #e0e0e0;
-                border-bottom: 1px solid white; 
+                background: #00a8ff; 
+                color: white;
+                border: 1px solid #00a8ff;
             }
             QTabBar::tab:hover {
-                background: #e9ecef;
+                background: #353b48;
             }
             QTabBar:focus { outline: none; }
         """)
         
-        self.tabs.addTab(self.create_url_tab(), "URL Shortener")
+        self.tabs.addTab(self.create_url_tab(), "Link Shortener")
         self.tabs.addTab(self.create_sms_tab(), "SMS Messaging")
-        self.tabs.addTab(self.create_fake_tab(), "Fake Data Generator")
+        self.tabs.addTab(self.create_fake_tab(), "Identity Generator")
         main_layout.addWidget(self.tabs)
 
         # footer
         footer_layout = QHBoxLayout()
         footer_layout.addStretch() 
-        btn_logout = QPushButton("Logout")
+        btn_logout = QPushButton("Sign Out")
         btn_logout.setFixedWidth(120) 
         btn_logout.setCursor(Qt.CursorShape.PointingHandCursor)
         btn_logout.setStyleSheet("""
             QPushButton { 
-                background-color: #ff6b6b; 
+                background-color: #e84118; 
                 color: white; 
-                border-radius: 6px; 
+                border-radius: 10px; 
                 padding: 10px; 
                 font-weight: bold; 
-                font-family: 'Poppins', sans-serif;
                 outline: 0;
             }
-            QPushButton:hover { background-color: #fa5252; }
+            QPushButton:hover { background-color: #c23616; }
         """)
         btn_logout.clicked.connect(self.logout_callback) 
         footer_layout.addWidget(btn_logout)
@@ -99,46 +96,50 @@ class UtilityScreen(QWidget):
     def create_url_tab(self):
         tab = QWidget()
         layout = QVBoxLayout()
-        layout.setContentsMargins(50, 50, 50, 50)
-        layout.setSpacing(15)
+        layout.setContentsMargins(60, 60, 60, 60)
+        layout.setSpacing(20)
 
-        lbl = QLabel("Enter Long URL:")
-        lbl.setStyleSheet("font-weight: bold; color: #2c3e50; font-family: 'Poppins', sans-serif;")
+        lbl = QLabel("Paste your long URL here:")
+        lbl.setStyleSheet("font-weight: bold; color: #f5f6fa; font-size: 16px;")
         layout.addWidget(lbl)
 
         self.url_input = QLineEdit()
-        self.url_input.setPlaceholderText("https://example.com/very-long-link") 
+        self.url_input.setPlaceholderText("[https://example.com/very-long-link](https://example.com/very-long-link)") 
         self.url_input.setStyleSheet("""
-            padding: 10px; border: 1px solid #ced4da; border-radius: 6px; color: #495057; font-family: 'Poppins', sans-serif;
+            padding: 14px; border: 2px solid #353b48; border-radius: 10px; color: #f5f6fa; font-size: 14px; background: #2f3640;
         """)
         layout.addWidget(self.url_input)
 
-        btn_shorten = QPushButton("Shorten URL")
+        btn_shorten = QPushButton("Shorten Link")
         btn_shorten.setCursor(Qt.CursorShape.PointingHandCursor)
         btn_shorten.setStyleSheet("""
-            QPushButton { background-color: #2ecc71; color: white; padding: 10px; border-radius: 6px; font-weight: bold; outline: 0; font-family: 'Poppins', sans-serif;}
-            QPushButton:hover { background-color: #27ae60; }
+            QPushButton { background-color: #4cd137; color: white; padding: 12px; border-radius: 10px; font-weight: bold; outline: 0; font-size: 14px;}
+            QPushButton:hover { background-color: #44bd32; }
         """)
         btn_shorten.clicked.connect(self.run_shortener)
         layout.addWidget(btn_shorten)
 
-        layout.addWidget(QLabel("Shortened Result:"))
+        layout.addSpacing(20)
+        lbl_res = QLabel("Result:")
+        lbl_res.setStyleSheet("color: #dcdde1;")
+        layout.addWidget(lbl_res)
         
         result_layout = QHBoxLayout()
         self.url_output = QLineEdit()
         self.url_output.setReadOnly(True)
-        self.url_output.setStyleSheet("background-color: #f8f9fa; border: 1px solid #ced4da; border-radius: 6px; padding: 10px; color: #4a90e2; font-weight: bold; font-family: 'Poppins', sans-serif;")
+        self.url_output.setStyleSheet("background-color: #2f3640; border: 2px solid #353b48; border-radius: 10px; padding: 12px; color: #00a8ff; font-weight: bold;")
         result_layout.addWidget(self.url_output)
 
-        btn_copy = QPushButton("Copy")
-        btn_copy.setFixedWidth(80)
-        btn_copy.setCursor(Qt.CursorShape.PointingHandCursor)
-        btn_copy.setStyleSheet("""
-            QPushButton { background-color: #95a5a6; color: white; padding: 10px; border-radius: 6px; font-weight: bold; outline: 0; font-family: 'Poppins', sans-serif;}
-            QPushButton:hover { background-color: #7f8c8d; }
-        """)
-        btn_copy.clicked.connect(lambda: QApplication.clipboard().setText(self.url_output.text()))
-        result_layout.addWidget(btn_copy)
+        self.btn_copy = QPushButton("Copy")
+        self.btn_copy.setFixedWidth(90)
+        self.btn_copy.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.copy_btn_style_normal = """
+            QPushButton { background-color: #718093; color: white; padding: 12px; border-radius: 10px; font-weight: bold; outline: 0;}
+            QPushButton:hover { background-color: #7f8fa6; }
+        """
+        self.btn_copy.setStyleSheet(self.copy_btn_style_normal)
+        self.btn_copy.clicked.connect(self.action_copy_text)
+        result_layout.addWidget(self.btn_copy)
 
         layout.addLayout(result_layout)
         layout.addStretch()
@@ -157,34 +158,55 @@ class UtilityScreen(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Connection Failed: {e}")
 
-    # sms messaging
+    def action_copy_text(self):
+        text = self.url_output.text()
+        if text:
+            QApplication.clipboard().setText(text)
+            self.btn_copy.setText("Copied!")
+            self.btn_copy.setStyleSheet("""
+                QPushButton { background-color: #4cd137; color: white; padding: 12px; border-radius: 10px; font-weight: bold; outline: 0;}
+            """)
+            QTimer.singleShot(2000, self.reset_copy_btn)
+
+    def reset_copy_btn(self):
+        self.btn_copy.setText("Copy")
+        self.btn_copy.setStyleSheet(self.copy_btn_style_normal)
+
+    # sms messaging (logging simulation)
     def create_sms_tab(self):
         tab = QWidget()
         layout = QVBoxLayout()
-        layout.setContentsMargins(50, 50, 50, 50)
-        layout.setSpacing(15)
+        layout.setContentsMargins(60, 60, 60, 60)
+        layout.setSpacing(20)
 
-        layout.addWidget(QLabel("Recipient Number:"))
+        lbl1 = QLabel("Recipient Number:")
+        lbl1.setStyleSheet("color: #dcdde1;")
+        layout.addWidget(lbl1)
+        
         self.sms_num_input = QLineEdit()
         self.sms_num_input.setText("+63") 
         self.sms_num_input.setStyleSheet("""
-            padding: 10px; border: 1px solid #ced4da; border-radius: 6px; color: #495057; font-family: 'Poppins', sans-serif;
+            padding: 14px; border: 2px solid #353b48; border-radius: 10px; color: #f5f6fa; font-size: 14px; background: #2f3640;
         """)
         layout.addWidget(self.sms_num_input)
 
-        layout.addWidget(QLabel("Message:"))
+        lbl2 = QLabel("Message Body:")
+        lbl2.setStyleSheet("color: #dcdde1;")
+        layout.addWidget(lbl2)
+        
         self.sms_msg_input = QLineEdit() 
         self.sms_msg_input.setPlaceholderText("Type your message here...")
         self.sms_msg_input.setStyleSheet("""
-            padding: 10px; border: 1px solid #ced4da; border-radius: 6px; color: #495057; font-family: 'Poppins', sans-serif;
+            padding: 14px; border: 2px solid #353b48; border-radius: 10px; color: #f5f6fa; font-size: 14px; background: #2f3640;
         """)
         layout.addWidget(self.sms_msg_input)
 
         btn_send = QPushButton("Send Message")
         btn_send.setCursor(Qt.CursorShape.PointingHandCursor)
+        # Soft Orange
         btn_send.setStyleSheet("""
-            QPushButton { background-color: #f39c12; color: white; padding: 10px; border-radius: 6px; font-weight: bold; outline: 0; font-family: 'Poppins', sans-serif;}
-            QPushButton:hover { background-color: #e67e22; }
+            QPushButton { background-color: #e1b12c; color: white; padding: 12px; border-radius: 10px; font-weight: bold; outline: 0; font-size: 14px;}
+            QPushButton:hover { background-color: #fbc531; }
         """)
         btn_send.clicked.connect(self.run_sms)
         layout.addWidget(btn_send)
@@ -223,8 +245,8 @@ class UtilityScreen(QWidget):
         btn_gen = QPushButton("Generate Identity")
         btn_gen.setCursor(Qt.CursorShape.PointingHandCursor)
         btn_gen.setStyleSheet("""
-            QPushButton { background-color: #9b59b6; color: white; padding: 10px; border-radius: 6px; font-weight: bold; outline: 0; font-family: 'Poppins', sans-serif;}
-            QPushButton:hover { background-color: #8e44ad; }
+            QPushButton { background-color: #9c88ff; color: white; padding: 12px; border-radius: 10px; font-weight: bold; outline: 0;}
+            QPushButton:hover { background-color: #8c7ae6; }
         """)
         btn_gen.clicked.connect(self.run_fake_data)
         btn_layout.addWidget(btn_gen)
@@ -232,8 +254,8 @@ class UtilityScreen(QWidget):
         btn_save = QPushButton("Save to CSV")
         btn_save.setCursor(Qt.CursorShape.PointingHandCursor)
         btn_save.setStyleSheet("""
-            QPushButton { background-color: #3498db; color: white; padding: 10px; border-radius: 6px; font-weight: bold; outline: 0; font-family: 'Poppins', sans-serif;}
-            QPushButton:hover { background-color: #2980b9; }
+            QPushButton { background-color: #00a8ff; color: white; padding: 12px; border-radius: 10px; font-weight: bold; outline: 0;}
+            QPushButton:hover { background-color: #0097e6; }
         """)
         btn_save.clicked.connect(self.save_to_csv)
         btn_layout.addWidget(btn_save)
@@ -242,7 +264,7 @@ class UtilityScreen(QWidget):
 
         self.fake_output = QTextEdit()
         self.fake_output.setReadOnly(True)
-        self.fake_output.setStyleSheet("background-color: #f8f9fa; border: 1px solid #ced4da; border-radius: 6px; padding: 10px; font-size: 14px; font-family: 'Poppins', sans-serif;")
+        self.fake_output.setStyleSheet("background-color: #2f3640; border: 2px solid #353b48; border-radius: 10px; padding: 12px; font-size: 14px; color: #f5f6fa;")
         layout.addWidget(self.fake_output)
         
         tab.setLayout(layout)
@@ -276,23 +298,15 @@ class UtilityScreen(QWidget):
         if not self.session_data:
             QMessageBox.warning(self, "Error", "No new data to save!")
             return
-            
         file_exists = os.path.isfile(CSV_FILE)
-        count = len(self.session_data)
-
         try:
             with open(CSV_FILE, mode='a', newline='', encoding='utf-8') as f:
                 fieldnames = ['Name', 'Email', 'Job', 'Address']
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
-                
                 if not file_exists:
                     writer.writeheader() 
-                
                 writer.writerows(self.session_data)
-                
-            QMessageBox.information(self, "Saved", f"Successfully saved {count} identities to {CSV_FILE}")
-            
+            QMessageBox.information(self, "Saved", f"Successfully saved identities to {CSV_FILE}")
             self.session_data.clear()
-            
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Could not save file: {e}")
