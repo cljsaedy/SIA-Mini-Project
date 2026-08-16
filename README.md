@@ -1,64 +1,73 @@
-# SIA-Mini-Project
-A Python desktop utility application developed for System Integration and Architecture (SIA).
+# SIA Mini Project
 
-The application combines several utility functions into a single PyQt6-based desktop interface, including user authentication, URL shortening, SMS message logging, and identity generation with CSV export.
+A Python desktop utility application developed as an individual academic project for **System Integration and Architecture (SIA)**.
 
-Features
-🔐 User Authentication
-User registration and login
-SQLite database for user accounts
-Password hashing
-Password visibility toggle
-Basic password validation
-🔗 URL Shortener
-Accepts long URLs
-Uses TinyURL through pyshorteners
-Displays the shortened URL
-Copy shortened URL to clipboard
-📱 SMS Messaging
-Enter a recipient number and message
-Validates basic input requirements
-Records messages with timestamps
-Saves SMS activity to sms_logs.txt
+The application combines multiple utilities into a single PyQt6-based desktop interface, including user authentication, URL shortening, SMS logging, and identity generation.
 
-Note: The SMS feature currently uses local logging and does not send messages through an SMS API.
+## Features
 
-🪪 Identity Generator
-Generates sample identity information using Faker
-Generates names, email addresses, jobs, and addresses
-Displays generated identities in the application
-Saves generated data to CSV
-Technologies Used
-Python
-PyQt6 — desktop GUI
-SQLite — user account database
-Faker — sample identity generation
-pyshorteners — URL shortening through TinyURL
-CSV / TXT — local data storage and logging
-Screenshots
-Login
+### 🔐 User Authentication
 
+- User registration and login
+- SQLite-based user accounts
+- Password hashing
+- Password visibility toggle
+- Basic input validation
 
+### 🔗 URL Shortener
 
+- Shortens long URLs using TinyURL
+- Uses the `pyshorteners` library
+- Displays the shortened URL
+- Copies the shortened URL to the clipboard
 
-URL Shortener
+### 📱 SMS Messaging
 
+- Enter a recipient number and message
+- Basic input validation
+- Records messages with timestamps
+- Saves SMS activity to `sms_logs.txt`
 
+> **Note:** The SMS feature currently logs messages locally and does not send messages through an SMS API.
 
+### 🪪 Identity Generator
 
-SMS Messaging
+- Generates sample identity information using Faker
+- Generates names, email addresses, jobs, and addresses
+- Displays generated identities
+- Exports generated data to CSV
 
+## Technologies Used
 
+- Python
+- PyQt6
+- SQLite
+- Faker
+- pyshorteners
+- CSV
+- TXT file handling
 
+## Screenshots
 
-Identity Generator
+### Login
 
+![Login Page](screenshots/login.png)
 
+### URL Shortener
 
+![URL Shortener](screenshots/url-shortener.png)
 
-Note: The screenshot paths above are placeholders. We will set up the actual image files in the repository before this README is finalized.
+### SMS Messaging
 
-Project Structure
+![SMS Messaging](screenshots/sms.png)
+
+### Identity Generator
+
+![Identity Generator](screenshots/identity-generator.png)
+
+## Project Structure
+
+```text
 SIA-Mini-Project/
 ├── main.py
 ├── database.py
@@ -66,12 +75,16 @@ SIA-Mini-Project/
 ├── utilities.py
 ├── requirements.txt
 ├── styles/
+├── screenshots/
 └── README.md
-Project Context
+```
 
-This project was developed as an individual academic project for System Integration and Architecture (SIA).
+## Project Context
 
-The project focuses on integrating multiple utilities and supporting components into a single desktop application.
+This project was developed as an **individual academic project** for the **System Integration and Architecture (SIA)** course.
 
-Status:
+The project demonstrates the integration of multiple utilities and supporting components into a single desktop application.
+
+## Status
+
 Completed academic project.
